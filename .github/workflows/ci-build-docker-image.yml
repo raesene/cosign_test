@@ -27,5 +27,5 @@ jobs:
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
     - name: Sign the image pushed
-      run: echo -n ${{secrets.COSIGN_KEY_PASSPHRASE}} | ./cosign sign -key /tmp/cosign.key raesene/cosign_test:${{steps.date.outputs.date}}
+      run: echo -n "${{secrets.COSIGN_KEY_PASSPHRASE}}" | ./cosign sign -key /tmp/cosign.key raesene/cosign_test:${{steps.date.outputs.date}}
     
