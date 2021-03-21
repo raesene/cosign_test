@@ -12,9 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get current Date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
     - name: Docker login
       run: echo ${{secrets.DOCKER_PASSWORD}} | docker login -u raesene --password-stdin
     - name: build Docker Image
-      run: docker build -t raesene/cosign_test .
+      run: docker build -t raesene/cosign_test:${{steps.date.outputs.date}} .
     - name: push to Docker hub
       run: docker push raesene/cosign_test
+    
