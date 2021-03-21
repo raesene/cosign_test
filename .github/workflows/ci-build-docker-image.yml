@@ -1,0 +1,20 @@
+name: Build & push Docker Image
+
+on:
+  push:
+    branches: [main]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: echo ${{secrets.DOCKER_PASSWORD}} | docker login -u raesene --password-stdin
+    - name: build Docker Image
+      run: docker build -t raesene/cosign_test .
+    - name: push to Docker hub
+      run: docker push raesene/cosign_test
