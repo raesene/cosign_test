@@ -22,7 +22,10 @@ jobs:
     - name: push to Docker hub
       run: docker push raesene/cosign_test:${{steps.date.outputs.date}}
     - name: place the cosign private key in a file
-      run: echo ${{secrets.COSIGN_KEY}} > /tmp/cosign.key
+      run: 'echo "$COSIGN_KEY" > /tmp/cosign.key'
+      shell: bash
+      env:
+        COSIGN_KEY: ${{secrets.COSIGN_KEY}}
     - name: Sign the image pushed
       run: echo -n ${{secrets.COSIGN_KEY_PASSPHRASE}} | ./cosign sign -key /tmp/cosign.key raesene/cosign_test:${{steps.date.outputs.date}}
     
